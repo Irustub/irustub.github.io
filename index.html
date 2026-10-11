@@ -1,442 +1,436 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Retro Game</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f4f2ed">
+    <meta name="description" content="Tarjeta de contacto digital. Guarda mis datos y encuentra mis redes sociales.">
+    <title>Tarjeta de contacto</title>
     <style>
         :root {
-            /* Cambiamos el color por defecto al morado de la imagen */
-            --shell-color: #6a1cd8;
-            --screen-end: min(66.6667vw, 100svh);
-            --gap-size: clamp(48px, 7vh, 82px);
+            color-scheme: light;
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            color: #202b27;
+            background: #f4f2ed;
+            font-synthesis: none;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            --ink: #202b27;
+            --muted: #66736d;
+            --green: #246b52;
+            --line: #e5e9e4;
         }
 
         * {
             box-sizing: border-box;
         }
 
-        html,
         body {
+            min-width: 320px;
+            min-height: 100vh;
             margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background: #000;
-            user-select: none;
-            -webkit-user-select: none;
-        }
-
-        #game-container {
-            position: relative;
-            z-index: 1;
-            width: 100vw;
-            height: 100vh;
-            height: 100svh;
-            background: transparent;
-        }
-
-        #game-container.ejs_parent,
-        #game-container .ejs_game,
-        #game-container .ejs_canvas_parent {
-            background: transparent !important;
-        }
-
-        #game-container .ejs_canvas_parent {
-            position: relative;
-            height: var(--screen-end) !important;
-            overflow: hidden;
-        }
-
-        #game-container::before,
-        #game-container::after {
-            content: "";
-            position: absolute;
-            right: 0;
-            left: 0;
-            z-index: 2;
-            pointer-events: none;
-        }
-
-        #game-container::before {
-            top: var(--screen-end);
-            height: var(--gap-size);
-            background: #000;
-        }
-
-        #game-container::after {
-            top: calc(var(--screen-end) + var(--gap-size));
-            bottom: 0;
-            background: var(--shell-color);
-        }
-
-        #game-container .ejs_virtualGamepad_parent {
-            z-index: 3 !important;
-        }
-
-        /* Barra de carga */
-        #loading-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            gap: 20px;
-            transition: opacity 0.4s ease;
-        }
-
-        #loading-container.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .loading-spinner {
-            width: 60px;
-            height: 60px;
-            border: 5px solid rgba(106, 28, 216, 0.3);
-            border-top: 5px solid #6a1cd8;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .loading-text {
-            color: #fff;
-            font-family: Arial, sans-serif;
-            font-size: 18px;
-            text-align: center;
-        }
-
-        .progress-bar-container {
-            width: 300px;
-            height: 8px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .progress-bar {
-            height: 100%;
-            background: linear-gradient(90deg, #6a1cd8, #9d4edd);
-            width: 0%;
-            transition: width 0.2s ease;
-            border-radius: 4px;
-            box-shadow: 0 0 10px rgba(106, 28, 216, 0.6);
-        }
-
-        .progress-percentage {
-            color: #aaa;
-            font-family: Arial, sans-serif;
-            font-size: 14px;
-            margin-top: 10px;
-        }
-
-        #color-picker-toggle {
-            position: fixed;
-            top: calc(var(--screen-end) + var(--gap-size) + 12px);
-            z-index: 1200;
-            height: 38px;
-            border: 1px solid rgba(17, 19, 33, .24);
-            color: #fff;
-            background: #292929;
-            cursor: pointer;
-            -webkit-tap-highlight-color: transparent;
-            right: 14px;
+            padding: 32px 18px;
             display: grid;
-            width: 38px;
             place-items: center;
-            padding: 0;
-            border-radius: 50%;
+            background:
+                radial-gradient(ellipse at 12% 10%, rgba(190, 214, 194, .48), transparent 34rem),
+                radial-gradient(ellipse at 92% 88%, rgba(231, 215, 184, .38), transparent 30rem),
+                #f4f2ed;
         }
 
-        .current-color {
-            width: 18px;
-            height: 18px;
-            border: 1px solid rgba(255, 255, 255, .75);
-            border-radius: 50%;
-            background: var(--shell-color);
+        a {
+            color: inherit;
         }
 
-        #color-picker {
-            position: fixed;
-            top: calc(var(--screen-end) + var(--gap-size) + 58px);
-            z-index: 1200;
-            padding: 8px;
-            border: 1px solid rgba(255, 255, 255, .14);
-            border-radius: 8px;
-            background: #242424;
+        .card {
+            width: min(100%, 460px);
+            overflow: hidden;
+            border: 1px solid rgba(32, 43, 39, .08);
+            border-radius: 26px;
+            background: rgba(255, 255, 255, .96);
+            box-shadow: 0 24px 70px rgba(42, 54, 47, .12);
         }
 
-        #color-picker[hidden] {
-            display: none;
-        }
-
-        #color-picker {
-            right: 14px;
+        .card-header {
+            position: relative;
+            min-height: 178px;
+            padding: 30px;
             display: flex;
+            align-items: flex-end;
+            background:
+                radial-gradient(circle at 84% 20%, rgba(255, 255, 255, .22) 0 5px, transparent 6px),
+                radial-gradient(circle at 76% 36%, rgba(255, 255, 255, .16) 0 3px, transparent 4px),
+                linear-gradient(135deg, #244f40, #34765b);
+        }
+
+        .monogram {
+            width: 88px;
+            height: 88px;
+            display: grid;
+            place-items: center;
+            border: 1px solid rgba(255, 255, 255, .42);
+            border-radius: 50%;
+            color: #fff;
+            background: rgba(255, 255, 255, .14);
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 30px;
+            letter-spacing: .04em;
+        }
+
+        .card-content {
+            padding: 28px 30px 30px;
+        }
+
+        .eyebrow {
+            margin: 0 0 8px;
+            color: var(--green);
+            font-size: 11px;
+            font-weight: 750;
+            letter-spacing: .15em;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            margin: 0;
+            color: var(--ink);
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(28px, 7vw, 36px);
+            font-weight: 500;
+            letter-spacing: -.035em;
+            line-height: 1.12;
+            overflow-wrap: anywhere;
+        }
+
+        .role {
+            margin: 9px 0 0;
+            color: var(--muted);
+            font-size: 15px;
+        }
+
+        .company {
+            display: inline-flex;
             align-items: center;
+            gap: 8px;
+            margin-top: 17px;
+            color: var(--ink);
+            font-size: 14px;
+            font-weight: 650;
+        }
+
+        .company::before {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #77a78d;
+            content: "";
+        }
+
+        .actions {
+            margin-top: 24px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .button {
+            min-height: 48px;
+            padding: 0 14px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--green);
+            border-radius: 12px;
+            color: #fff;
+            background: var(--green);
+            font: inherit;
+            font-size: 14px;
+            font-weight: 700;
+            text-align: center;
+            text-decoration: none;
+            transition: background .18s ease, transform .18s ease;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background: #1d5943;
+            transform: translateY(-1px);
+        }
+
+        .button.secondary {
+            color: var(--green);
+            background: #fff;
+        }
+
+        .button.secondary:hover {
+            background: #f1f7f2;
+        }
+
+        .section-title {
+            margin: 29px 0 11px;
+            color: #87918b;
+            font-size: 10px;
+            font-weight: 750;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+        }
+
+        .details {
+            margin: 0;
+            border-top: 1px solid var(--line);
+        }
+
+        .detail {
+            min-height: 52px;
+            padding: 12px 0;
+            display: grid;
+            grid-template-columns: 94px minmax(0, 1fr);
+            gap: 12px;
+            align-items: start;
+            border-bottom: 1px solid var(--line);
+            font-size: 13px;
+        }
+
+        .detail dt {
+            color: var(--muted);
+        }
+
+        .detail dd {
+            min-width: 0;
+            margin: 0;
+            color: var(--ink);
+            font-weight: 550;
+            overflow-wrap: anywhere;
+        }
+
+        .detail a {
+            color: var(--green);
+            text-decoration-color: rgba(36, 107, 82, .35);
+            text-underline-offset: 3px;
+        }
+
+        .social-links {
+            display: flex;
+            flex-wrap: wrap;
             gap: 8px;
         }
 
-        #game-status {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            z-index: 1300;
-            max-width: calc(100vw - 40px);
-            margin: 0;
-            padding: 12px 16px;
-            border-radius: 6px;
-            color: #fff;
-            background: rgba(0, 0, 0, .86);
-            font: 12px/1.4 Arial, sans-serif;
+        .social-link {
+            min-height: 34px;
+            padding: 7px 11px;
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            color: var(--green);
+            background: #fbfcfa;
+            font-size: 12px;
+            font-weight: 650;
+            text-decoration: none;
+        }
+
+        .social-link:hover {
+            border-color: #b8d1c1;
+            background: #f1f7f2;
+        }
+
+        .note {
+            margin: 20px 0 0;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .footer {
+            padding: 0 30px 24px;
+            color: #929b95;
+            font-size: 11px;
             text-align: center;
-            transform: translate(-50%, -50%);
         }
 
-        #game-status[hidden] {
-            display: none;
-        }
+        @media (max-width: 380px) {
+            body {
+                padding: 14px 10px;
+            }
 
-        .color-choice {
-            width: 22px;
-            height: 22px;
-            padding: 0;
-            border: 1px solid rgba(255, 255, 255, 0.75);
-            border-radius: 50%;
-            cursor: pointer;
-            -webkit-tap-highlight-color: transparent;
-        }
+            .card-header {
+                min-height: 150px;
+                padding: 24px;
+            }
 
-        .color-choice[aria-pressed="true"] {
-            outline: 2px solid #fff;
-            outline-offset: 2px;
-        }
+            .card-content {
+                padding: 24px;
+            }
 
-        /* --- CONTROLES ADAPTADOS A DELTA --- */
+            .detail {
+                grid-template-columns: 78px minmax(0, 1fr);
+            }
 
-        /* Botones A y B */
-        #game-container .ejs_virtualGamepad_button.b_a,
-        #game-container .ejs_virtualGamepad_button.b_b {
-            width: 72px !important;
-            height: 72px !important;
-            line-height: 72px !important;
-            border: 2px solid #999 !important;
-            border-radius: 50% !important;
-            /* Degradado gris claro para efecto 3D */
-            background: linear-gradient(180deg, #fdfdfd 0%, #d8d8d8 100%) !important;
-            color: rgba(180, 180, 180, 0.8) !important;
-            font-size: 26px !important;
-            font-weight: bold !important;
-            /* Sombra caída fuerte + sombra interior para dar volumen */
-            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.6), inset 0 -3px 6px rgba(0, 0, 0, 0.15) !important;
-        }
-
-        #game-container .ejs_virtualGamepad_button.b_a.ejs_virtualGamepad_button_down,
-        #game-container .ejs_virtualGamepad_button.b_b.ejs_virtualGamepad_button_down {
-            background: linear-gradient(180deg, #d8d8d8 0%, #e8e8e8 100%) !important;
-            transform: translateY(3px);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6), inset 0 2px 6px rgba(0, 0, 0, 0.2) !important;
-        }
-
-        /* Botones L y R */
-        #game-container .ejs_virtualGamepad_button.b_l,
-        #game-container .ejs_virtualGamepad_button.b_r {
-            border: 2px solid #999 !important;
-            border-radius: 12px !important; /* Forma de píldora redondeada */
-            background: linear-gradient(180deg, #fdfdfd 0%, #d8d8d8 100%) !important;
-            color: rgba(180, 180, 180, 0.8) !important;
-            font-size: 18px !important;
-            font-weight: bold !important;
-            box-shadow: 0 5px 6px rgba(0, 0, 0, 0.5), inset 0 -2px 4px rgba(0, 0, 0, 0.1) !important;
-        }
-
-        /* Cruceta (D-Pad) */
-        #game-container .b_dpad .ejs_dpad_main {
-            opacity: 1 !important;
-        }
-
-        #game-container .b_dpad .ejs_dpad_bar {
-            border: 2px solid #999 !important;
-            border-radius: 10px !important; /* Puntas redondeadas */
-            background: linear-gradient(180deg, #f4f4f4 0%, #c8c8c8 100%) !important;
-            box-shadow: 0 5px 8px rgba(0, 0, 0, 0.5) !important;
-        }
-
-        /* Select y Start */
-        #game-container .ejs_virtualGamepad_button.b_select,
-        #game-container .ejs_virtualGamepad_button.b_start {
-            width: 26px !important;
-            height: 26px !important;
-            line-height: 26px !important;
-            border: 1px solid #999 !important;
-            border-radius: 50% !important; /* Botones pequeños y redondos */
-            background: linear-gradient(180deg, #fdfdfd 0%, #d8d8d8 100%) !important;
-            color: transparent !important; /* Oculta el texto dentro del botón */
-            font-size: 0px !important;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5) !important;
-            transform: none !important; /* Quita la rotación original */
-        }
-        
-        #game-container .ejs_virtualGamepad_button.b_select.ejs_virtualGamepad_button_down,
-        #game-container .ejs_virtualGamepad_button.b_start.ejs_virtualGamepad_button_down {
-            transform: translateY(2px) !important;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5) !important;
+            .footer {
+                padding-right: 24px;
+                padding-left: 24px;
+            }
         }
     </style>
 </head>
-
 <body>
-    <!-- Contenedor de carga -->
-    <div id="loading-container">
-        <div class="loading-spinner"></div>
-        <div class="loading-text">Cargando emulador...</div>
-        <div class="progress-bar-container">
-            <div class="progress-bar" id="progress-bar"></div>
+    <main class="card" aria-labelledby="full-name">
+        <div class="card-header">
+            <div class="monogram" id="monogram" aria-hidden="true">VC</div>
         </div>
-        <div class="progress-percentage" id="progress-percentage">0%</div>
-    </div>
 
-    <div id="game-container"></div>
+        <section class="card-content">
+            <p class="eyebrow">Tarjeta de contacto</p>
+            <h1 id="full-name"></h1>
+            <p class="role" id="role"></p>
+            <p class="company" id="company"></p>
 
-    <p id="game-status" role="status" hidden></p>
+            <div class="actions">
+                <a class="button" id="email-button">Enviar correo</a>
+                <a class="button secondary" id="phone-button">Llamar</a>
+                <button class="button secondary" id="save-contact" type="button" style="grid-column: 1 / -1">Guardar contacto (.vcf)</button>
+            </div>
 
-    <button id="color-picker-toggle" type="button" aria-label="Elegir color de carcasa" aria-expanded="false" aria-controls="color-picker" title="Color de carcasa">
-        <span class="current-color"></span>
-    </button>
+            <h2 class="section-title">Datos de contacto</h2>
+            <dl class="details" id="contact-details"></dl>
 
-    <div id="color-picker" role="group" aria-label="Colores de la carcasa" hidden>
-        <!-- Se añadió el morado de Delta como opción -->
-        <button class="color-choice" type="button" data-color="#6a1cd8" aria-label="Morado Delta" aria-pressed="true" title="Morado Delta" style="background:#6a1cd8"></button>
-        <button class="color-choice" type="button" data-color="#62799e" aria-label="Azul" aria-pressed="false" title="Azul" style="background:#62799e"></button>
-        <button class="color-choice" type="button" data-color="#796b91" aria-label="Morado" aria-pressed="false" title="Morado" style="background:#796b91"></button>
-        <button class="color-choice" type="button" data-color="#a55d5c" aria-label="Rojo" aria-pressed="false" title="Rojo" style="background:#a55d5c"></button>
-        <button class="color-choice" type="button" data-color="#262626" aria-label="Negro" aria-pressed="false" title="Negro" style="background:#262626"></button>
-        <button class="color-choice" type="button" data-color="#a69563" aria-label="Dorado" aria-pressed="false" title="Dorado" style="background:#a69563"></button>
-        <button class="color-choice" type="button" data-color="#c8c9bd" aria-label="Gris Game Boy" aria-pressed="false" title="Gris Game Boy" style="background:#c8c9bd"></button>
-    </div>
+            <h2 class="section-title">Redes sociales</h2>
+            <div class="social-links" id="social-links"></div>
+            <p class="note" id="note"></p>
+        </section>
+        <footer class="footer">Un clic para guardar mis datos y mantenernos en contacto.</footer>
+    </main>
 
     <script>
-        const games = {
-            mario: { core: "gba", url: "smb.gba" },
-            zelda: { core: "gba", url: "games/zelda-minish-cap.gba" },
-            pokemonRuby: { core: "gba", url: "PokemonRubyVersion.gba" },
-            asteroids: { core: "gb", url: "Asteroids%20(USA,%20Europe).gb" }
+        // Reemplaza estos ejemplos por tus datos antes de publicar el sitio.
+        const profile = {
+            firstName: "Tu nombre",
+            lastName: "completo",
+            company: "Nombre de tu empresa",
+            role: "Tu cargo o profesión",
+            email: "tu.correo@ejemplo.com",
+            phone: "+00 000 000 000",
+            website: "https://tusitio.com",
+            address: {
+                street: "",
+                city: "Tu ciudad",
+                region: "",
+                postalCode: "",
+                country: "Tu país"
+            },
+            note: "Aquí puedes agregar una breve descripción, especialidad o mensaje.",
+            socialProfiles: [
+                { name: "LinkedIn", type: "linkedin", url: "https://www.linkedin.com/in/tuusuario" },
+                { name: "Instagram", type: "instagram", url: "https://www.instagram.com/tuusuario" },
+                { name: "X", type: "x", url: "https://x.com/tuusuario" }
+            ]
         };
 
-        const colorPicker = document.querySelector("#color-picker");
-        const colorPickerToggle = document.querySelector("#color-picker-toggle");
-        const requestedGameId = new URLSearchParams(location.search).get("game") || "mario";
-        const gameStatus = document.querySelector("#game-status");
-        const loadingContainer = document.querySelector("#loading-container");
-        const progressBar = document.querySelector("#progress-bar");
-        const progressPercentage = document.querySelector("#progress-percentage");
+        const fullName = [profile.firstName, profile.lastName].filter(Boolean).join(" ").trim();
+        const fullNameElement = document.querySelector("#full-name");
+        const detailsElement = document.querySelector("#contact-details");
+        const socialLinksElement = document.querySelector("#social-links");
 
-        colorPickerToggle.addEventListener("click", () => {
-            colorPicker.hidden = !colorPicker.hidden;
-            colorPickerToggle.setAttribute("aria-expanded", String(!colorPicker.hidden));
-        });
+        fullNameElement.textContent = fullName || "Tu nombre completo";
+        document.querySelector("#role").textContent = profile.role;
+        document.querySelector("#company").textContent = profile.company;
+        document.querySelector("#note").textContent = profile.note;
+        document.querySelector("#monogram").textContent = [profile.firstName, profile.lastName]
+            .filter(Boolean)
+            .map((part) => part.trim()[0] || "")
+            .join("")
+            .slice(0, 2)
+            .toUpperCase() || "VC";
 
-        document.querySelectorAll(".color-choice").forEach((button) => {
-            button.addEventListener("click", () => {
-                document.documentElement.style.setProperty("--shell-color", button.dataset.color);
+        const emailButton = document.querySelector("#email-button");
+        emailButton.href = `mailto:${profile.email}`;
+        const phoneButton = document.querySelector("#phone-button");
+        phoneButton.href = `tel:${profile.phone.replace(/[^\d+]/g, "")}`;
 
-                document.querySelectorAll(".color-choice").forEach((choice) => {
-                    choice.setAttribute("aria-pressed", "false");
-                });
+        function addDetail(label, value, href) {
+            if (!value) return;
 
-                button.setAttribute("aria-pressed", "true");
-                colorPickerToggle.querySelector(".current-color").style.backgroundColor = button.dataset.color;
-                colorPicker.hidden = true;
-                colorPickerToggle.setAttribute("aria-expanded", "false");
-            });
-        });
+            const row = document.createElement("div");
+            row.className = "detail";
+            const term = document.createElement("dt");
+            term.textContent = label;
+            const description = document.createElement("dd");
 
-        // Simular progreso de carga
-        let fakeProgress = 0;
-        const fakeProgressInterval = setInterval(() => {
-            if (fakeProgress < 90) {
-                fakeProgress += Math.random() * 25;
-                if (fakeProgress > 90) fakeProgress = 90;
-                updateProgressBar(fakeProgress);
-            }
-        }, 250);
-
-        function updateProgressBar(percentage) {
-            progressBar.style.width = percentage + "%";
-            progressPercentage.textContent = Math.floor(percentage) + "%";
-        }
-
-        // Función para ocultar la pantalla de carga
-        function hideLoadingScreen() {
-            clearInterval(fakeProgressInterval);
-            updateProgressBar(100);
-            setTimeout(() => {
-                loadingContainer.classList.add("hidden");
-            }, 200);
-        }
-
-        const game = games[requestedGameId] || games.mario;
-        window.EJS_player = "#game-container";
-        window.EJS_core = game.core;
-        window.EJS_gameUrl = game.url;
-        window.EJS_pathtodata = "https://cdn.emulatorjs.org/stable/data/";
-        
-        // Optimizaciones de rendimiento
-        window.EJS_startOnLoaded = true;
-        window.EJS_backgroundColor = "#000000";
-        window.EJS_throttle = 100;  // Mejora el rendimiento en modo normal
-        window.EJS_audioVolume = 0.75; // Volumen optimizado
-        
-        // Configuración de audio mejorada
-        window.EJS_audioBuffer = 4096; // Buffer de audio más grande para menos distorsión
-        window.EJS_audioSampleRate = 44100; // Sample rate estándar
-        
-        // Detección mejorada de carga
-        let gameLoaded = false;
-        
-        const checkGameLoaded = setInterval(() => {
-            // Verificar si el canvas está renderizando
-            const gameCanvas = document.querySelector("#game-container canvas");
-            const gamepadParent = document.querySelector("#game-container .ejs_virtualGamepad_parent");
-            
-            // Verificar si el canvas tiene dimensiones válidas y está visible
-            if (gameCanvas && gamepadParent && !gameLoaded) {
-                const canvasRect = gameCanvas.getBoundingClientRect();
-                
-                // Si el canvas tiene tamaño y está visible, el juego está listo
-                if (canvasRect.width > 0 && canvasRect.height > 0) {
-                    gameLoaded = true;
-                    clearInterval(checkGameLoaded);
-                    hideLoadingScreen();
+            if (href) {
+                const link = document.createElement("a");
+                link.href = href;
+                link.textContent = value;
+                if (href.startsWith("http")) {
+                    link.target = "_blank";
+                    link.rel = "noopener noreferrer";
                 }
+                description.append(link);
+            } else {
+                description.textContent = value;
             }
-        }, 100);
-        
-        // Fallback: ocultar pantalla de carga después de 10 segundos máximo
-        setTimeout(() => {
-            if (!gameLoaded) {
-                gameLoaded = true;
-                clearInterval(checkGameLoaded);
-                hideLoadingScreen();
-            }
-        }, 10000);
-    </script>
 
-    <script src="https://cdn.emulatorjs.org/stable/data/loader.js"></script>
+            row.append(term, description);
+            detailsElement.append(row);
+        }
+
+        addDetail("Correo", profile.email, `mailto:${profile.email}`);
+        addDetail("Teléfono", profile.phone, `tel:${profile.phone.replace(/[^\d+]/g, "")}`);
+        addDetail("Sitio web", profile.website, profile.website);
+
+        const address = [
+            profile.address.street,
+            profile.address.city,
+            profile.address.region,
+            profile.address.postalCode,
+            profile.address.country
+        ].filter(Boolean).join(", ");
+        addDetail("Ubicación", address);
+
+        profile.socialProfiles.filter((social) => social.url).forEach((social) => {
+            const link = document.createElement("a");
+            link.className = "social-link";
+            link.href = social.url;
+            link.textContent = social.name;
+            link.target = "_blank";
+            link.rel = "noopener noreferrer";
+            socialLinksElement.append(link);
+        });
+
+        function escapeVCard(value) {
+            return String(value || "")
+                .replace(/\\/g, "\\\\")
+                .replace(/\r?\n/g, "\\n")
+                .replace(/,/g, "\\,")
+                .replace(/;/g, "\\;");
+        }
+
+        document.querySelector("#save-contact").addEventListener("click", () => {
+            const lines = [
+                "BEGIN:VCARD",
+                "VERSION:3.0",
+                `N:${escapeVCard(profile.lastName)};${escapeVCard(profile.firstName)};;;`,
+                `FN:${escapeVCard(fullName)}`,
+                `ORG:${escapeVCard(profile.company)}`,
+                `TITLE:${escapeVCard(profile.role)}`,
+                `TEL;TYPE=CELL:${escapeVCard(profile.phone)}`,
+                `EMAIL;TYPE=INTERNET:${escapeVCard(profile.email)}`
+            ];
+
+            if (profile.website) lines.push(`URL:${escapeVCard(profile.website)}`);
+            if (address) {
+                lines.push(`ADR;TYPE=WORK:;;${escapeVCard(profile.address.street)};${escapeVCard(profile.address.city)};${escapeVCard(profile.address.region)};${escapeVCard(profile.address.postalCode)};${escapeVCard(profile.address.country)}`);
+            }
+            profile.socialProfiles.filter((social) => social.url).forEach((social) => {
+                lines.push(`X-SOCIALPROFILE;TYPE=${escapeVCard(social.type)}:${escapeVCard(social.url)}`);
+            });
+            if (profile.note) lines.push(`NOTE:${escapeVCard(profile.note)}`);
+            lines.push("END:VCARD");
+
+            const file = new Blob([lines.join("\r\n")], { type: "text/vcard;charset=utf-8" });
+            const downloadUrl = URL.createObjectURL(file);
+            const downloadLink = document.createElement("a");
+            downloadLink.href = downloadUrl;
+            downloadLink.download = `${fullName.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "contacto"}.vcf`;
+            downloadLink.click();
+            setTimeout(() => URL.revokeObjectURL(downloadUrl), 1000);
+        });
+    </script>
 </body>
 </html>

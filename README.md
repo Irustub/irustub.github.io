@@ -1,15 +1,26 @@
-# Jade-Games
+# Tarjeta de contacto digital
 
-Sitio estático publicado con GitHub Pages. La página principal es `index.html` y la etiqueta NFC debe apuntar a la URL estable del sitio.
+Sitio estático para publicar una vCard mediante GitHub Pages. La página principal es `index.html` y funciona sin dependencias ni servidor.
 
-## Agregar un juego
+## Personalizar la tarjeta
 
-1. Coloca en `games/` una ROM que tengas derecho a alojar. Para Zelda: The Minish Cap, el nombre esperado es `games/zelda-minish-cap.gba`.
-2. En `index.html`, agrega el identificador, el core y la ruta en el objeto `games`.
-3. Configura la etiqueta NFC con la URL del juego. La página no muestra un selector de juegos.
-4. Publica los cambios del repositorio.
+En `index.html`, busca el objeto `profile` y reemplaza los valores de ejemplo:
 
-## URLs para las etiquetas
+- `firstName` y `lastName`: nombre completo.
+- `company` y `role`: empresa y cargo o profesión.
+- `email`, `phone` y `website`: medios de contacto.
+- `address`: calle, ciudad, región, código postal y país.
+- `note`: descripción o mensaje breve.
+- `socialProfiles`: nombre, tipo y URL de cada red social.
 
-- Asteroids (Game Boy): `https://irustub.github.io/?game=asteroids`.
+Puedes quitar redes que no uses o agregar otras en `socialProfiles`. No publiques la página hasta cambiar los datos de ejemplo por los tuyos.
 
+La tarjeta ofrece enlaces para escribir y llamar, muestra las redes sociales y genera un archivo `.vcf` descargable con los datos del perfil para guardarlo en la agenda del teléfono o computadora.
+
+## Publicar con GitHub Pages
+
+1. Sube `index.html` y este README al repositorio de GitHub.
+2. En el repositorio, abre **Settings > Pages**.
+3. En **Build and deployment**, selecciona **Deploy from a branch** y elige la rama principal y la carpeta raíz (`/`).
+4. Guarda y espera a que termine la publicación.
+5. Comparte la URL que GitHub Pages muestra en esa misma sección. En este sitio la URL configurada previamente era `https://irustub.github.io/`.
