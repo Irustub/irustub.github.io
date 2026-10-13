@@ -4,7 +4,7 @@ Sitio estático para publicar una vCard mediante GitHub Pages. La página princi
 
 ## Personalizar la tarjeta
 
-En `index.html`, busca el objeto `profile` y reemplaza los valores de ejemplo:
+Los datos de identidad configurados son Cesar Campos Arvelo, Vendedor en Fudo. También se restauraron los campos de contacto y redes sociales que tenía la tarjeta antes. En `index.html`, busca el objeto `profile` para editarlos:
 
 - `firstName` y `lastName`: nombre completo.
 - `company` y `role`: empresa y cargo o profesión.
@@ -16,13 +16,13 @@ En `index.html`, busca el objeto `profile` y reemplaza los valores de ejemplo:
 - `note`: descripción o mensaje breve.
 - `socialProfiles`: nombre, tipo y URL de cada red social.
 
-Puedes quitar redes que no uses o agregar otras en `socialProfiles`. No publiques la página hasta cambiar los datos de ejemplo por los tuyos.
+El correo, teléfono, WhatsApp, ubicación, nota y perfiles sociales restaurados son los valores de ejemplo de la plantilla, no datos verificados de Cesar. Reemplázalos por los datos correctos antes de publicar; cualquier campo vacío se oculta en la tarjeta.
 
-La tarjeta ofrece enlaces para escribir, llamar y contactar por WhatsApp, muestra las redes sociales y genera un archivo `.vcf` descargable con los datos del perfil para guardarlo en la agenda del teléfono o computadora. El botón de WhatsApp solo aparece al configurar `whatsappPhone` con un número que tenga entre 8 y 15 dígitos; debe incluir el prefijo internacional, por ejemplo `+52 55 1234 5678`. El mensaje inicial se puede cambiar en `whatsappMessage`.
+La tarjeta ofrece enlaces para visitar el sitio web y genera un archivo `.vcf` descargable con los datos disponibles para guardarlo en la agenda del teléfono o computadora. Al configurar un correo, teléfono o WhatsApp, también se muestran sus acciones; el botón de WhatsApp requiere un número con prefijo internacional y entre 8 y 15 dígitos.
 
 ## Vista previa al compartir
 
-`index.html` incluye metadatos Open Graph y Twitter Card para mostrar título, descripción e imagen al compartir el enlace. La imagen `social-preview.png` mide 1200 × 630 px. Si personalizas tu nombre, actualiza también los títulos y descripciones Open Graph/Twitter en el `<head>`; reemplaza la imagen si quieres incluir tu foto o identidad de marca.
+El banner de la tarjeta usa `fudo-banner.png`, una copia sin modificaciones de la imagen de referencia. `social-preview.png` usa la misma imagen para compartir. Si reemplazas el banner, actualiza ambos archivos si quieres que coincidan.
 
 ## Publicar con GitHub Pages
 

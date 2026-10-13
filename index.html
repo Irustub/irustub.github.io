@@ -3,21 +3,21 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#f4f2ed">
-    <meta name="description" content="Tarjeta de contacto digital. Guarda mis datos y encuentra mis redes sociales.">
-    <title>Tarjeta de contacto</title>
+    <meta name="theme-color" content="#f13a22">
+    <meta name="description" content="Tarjeta de contacto de Cesar Campos Arvelo, Vendedor en Fudo.">
+    <title>Cesar Campos Arvelo | Fudo</title>
     <meta property="og:type" content="website">
-    <meta property="og:site_name" content="Tarjeta de contacto">
-    <meta property="og:title" content="Tu nombre completo | Tarjeta de contacto">
-    <meta property="og:description" content="Conoce mis datos de contacto y redes sociales. Guarda mi contacto en un clic.">
+    <meta property="og:site_name" content="Fudo">
+    <meta property="og:title" content="Cesar Campos Arvelo | Vendedor en Fudo">
+    <meta property="og:description" content="Conoce a Cesar Campos Arvelo, Vendedor en Fudo.">
     <meta property="og:url" content="https://irustub.github.io/">
     <meta property="og:image" content="https://irustub.github.io/social-preview.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="Tarjeta digital de contacto con diseño verde y elegante">
+    <meta property="og:image:alt" content="Tarjeta de contacto de Cesar Campos Arvelo, Vendedor en Fudo">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Tu nombre completo | Tarjeta de contacto">
-    <meta name="twitter:description" content="Conoce mis datos de contacto y redes sociales. Guarda mi contacto en un clic.">
+    <meta name="twitter:title" content="Cesar Campos Arvelo | Vendedor en Fudo">
+    <meta name="twitter:description" content="Conoce a Cesar Campos Arvelo, Vendedor en Fudo.">
     <meta name="twitter:image" content="https://irustub.github.io/social-preview.png">
     <style>
         :root {
@@ -30,7 +30,7 @@
             -webkit-font-smoothing: antialiased;
             --ink: #202b27;
             --muted: #66736d;
-            --green: #246b52;
+            --green: #c8321e;
             --line: #e5e9e4;
         }
 
@@ -78,29 +78,13 @@
         }
 
         .card-header {
-            position: relative;
-            min-height: 178px;
-            padding: 30px;
-            display: flex;
-            align-items: flex-end;
-            background:
-                radial-gradient(circle at 84% 20%, rgba(255, 255, 255, .22) 0 5px, transparent 6px),
-                radial-gradient(circle at 76% 36%, rgba(255, 255, 255, .16) 0 3px, transparent 4px),
-                linear-gradient(135deg, #244f40, #34765b);
+            line-height: 0;
         }
 
-        .monogram {
-            width: 88px;
-            height: 88px;
-            display: grid;
-            place-items: center;
-            border: 1px solid rgba(255, 255, 255, .42);
-            border-radius: 50%;
-            color: #fff;
-            background: rgba(255, 255, 255, .14);
-            font-family: Georgia, "Times New Roman", serif;
-            font-size: 30px;
-            letter-spacing: .04em;
+        .brand-banner {
+            width: 100%;
+            height: auto;
+            display: block;
         }
 
         .card-content {
@@ -116,6 +100,45 @@
             text-transform: uppercase;
         }
 
+        .identity {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .identity-text {
+            min-width: 0;
+        }
+
+        .avatar {
+            position: relative;
+            width: 84px;
+            height: 84px;
+            flex: none;
+            overflow: hidden;
+            border: 3px solid #fff;
+            border-radius: 50%;
+            color: #fff;
+            background: linear-gradient(135deg, #f13a22, #c8321e);
+            box-shadow: 0 0 0 2px #f13a22, 0 8px 20px rgba(241, 58, 34, .25);
+            display: grid;
+            place-items: center;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 28px;
+        }
+
+        .avatar img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .avatar img[hidden] {
+            display: none;
+        }
+
         h1 {
             margin: 0;
             color: var(--ink);
@@ -128,26 +151,26 @@
         }
 
         .role {
-            margin: 9px 0 0;
-            color: var(--muted);
-            font-size: 15px;
-        }
-
-        .company {
+            margin: 14px 0 0;
+            padding: 7px 16px 7px 14px;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            margin-top: 17px;
-            color: var(--ink);
-            font-size: 14px;
-            font-weight: 650;
+            gap: 9px;
+            border-radius: 999px;
+            color: #fff;
+            background: linear-gradient(135deg, #f13a22, #c8321e);
+            box-shadow: 0 6px 16px rgba(241, 58, 34, .28);
+            font-size: 12px;
+            font-weight: 750;
+            letter-spacing: .14em;
+            text-transform: uppercase;
         }
 
-        .company::before {
+        .role::before {
             width: 7px;
             height: 7px;
             border-radius: 50%;
-            background: #77a78d;
+            background: #fff;
             content: "";
         }
 
@@ -297,11 +320,6 @@
                 padding: 14px 10px;
             }
 
-            .card-header {
-                min-height: 150px;
-                padding: 24px;
-            }
-
             .card-content {
                 padding: 24px;
             }
@@ -326,14 +344,21 @@
 <body>
     <main class="card" aria-labelledby="full-name">
         <div class="card-header">
-            <div class="monogram" id="monogram" aria-hidden="true">VC</div>
+            <img class="brand-banner" src="fudo-banner.png" alt="Logotipo de Fudo sobre fondo naranja">
         </div>
 
         <section class="card-content">
-            <p class="eyebrow">Tarjeta de contacto</p>
-            <h1 id="full-name"></h1>
-            <p class="role" id="role"></p>
-            <p class="company" id="company"></p>
+            <p class="eyebrow">Tarjeta de contacto · Fudo</p>
+            <div class="identity">
+                <div class="avatar" id="avatar">
+                    <img id="avatar-photo" src="foto-cesar.jpg" alt="Rostro de Cesar Campos Arvelo">
+                    <span id="avatar-initials" aria-hidden="true"></span>
+                </div>
+                <div class="identity-text">
+                    <h1 id="full-name"></h1>
+                    <p class="role" id="role"></p>
+                </div>
+            </div>
 
             <div class="actions">
                 <a class="button" id="email-button">Enviar correo</a>
@@ -342,43 +367,42 @@
                     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2a9.93 9.93 0 0 0-8.51 15.05L2.2 21.8l4.87-1.28A9.93 9.93 0 1 0 12.04 2Zm0 18.05a8.1 8.1 0 0 1-4.13-1.13l-.3-.18-2.89.76.77-2.81-.2-.3A8.12 8.12 0 1 1 12.04 20.05Zm4.45-6.08c-.24-.12-1.42-.7-1.64-.78-.22-.08-.38-.12-.54.12-.16.24-.62.78-.76.94-.14.16-.28.18-.52.06-.24-.12-1.02-.38-1.95-1.21-.72-.64-1.21-1.43-1.35-1.67-.14-.24-.02-.37.1-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.77-.2-.46-.4-.4-.54-.41h-.46c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.69 2.58 4.09 3.62.57.25 1.02.4 1.37.51.58.18 1.1.16 1.51.1.46-.07 1.42-.58 1.62-1.14.2-.56.2-1.04.14-1.14-.06-.1-.22-.16-.46-.28Z"/></svg>
                     Escribir por WhatsApp
                 </a>
-                <button class="button secondary" id="save-contact" type="button" style="grid-column: 1 / -1">Guardar contacto (.vcf)</button>
+                <button class="button secondary" id="save-contact" type="button" style="grid-column: 1 / -1">Guardar contacto</button>
             </div>
 
             <h2 class="section-title">Datos de contacto</h2>
             <dl class="details" id="contact-details"></dl>
 
-            <h2 class="section-title">Redes sociales</h2>
+            <h2 class="section-title" id="social-title">Redes sociales</h2>
             <div class="social-links" id="social-links"></div>
-            <p class="note" id="note"></p>
+            <p class="note" id="note" hidden></p>
         </section>
-        <footer class="footer">Un clic para guardar mis datos y mantenernos en contacto.</footer>
+        <footer class="footer">Cesar Campos Arvelo · Fudo</footer>
     </main>
 
     <script>
-        // Reemplaza estos ejemplos por tus datos antes de publicar el sitio.
         const profile = {
-            firstName: "Tu nombre",
-            lastName: "completo",
-            company: "Nombre de tu empresa",
-            role: "Tu cargo o profesión",
-            email: "tu.correo@ejemplo.com",
-            phone: "+56 9 6277 2597",
-            whatsappPhone: "+56 9 6277 2597",
-            website: "https://tusitio.com",
+            firstName: "Cesar",
+            lastName: "Campos Arvelo",
+            company: "Fudo",
+            role: "Vendedor",
+            email: "Ecampos@fu.do",
+            phone: "+56 9 7718 5379",
+            whatsappPhone: "+56 9 7718 5379",
+            website: "https://fu.do/es-cl/",
             address: {
                 street: "",
-                city: "Tu ciudad",
-                region: "",
+                city: "Santiago",
+                region: "Región Metropolitana",
                 postalCode: "",
-                country: "Tu país"
+                country: "Chile"
             },
             note: "Aquí puedes agregar una breve descripción, especialidad o mensaje.",
             whatsappMessage: "Hola, vi tu tarjeta de contacto y me gustaría ponerme en contacto contigo.",
             socialProfiles: [
-                { name: "LinkedIn", type: "linkedin", url: "https://www.linkedin.com/in/tuusuario" },
-                { name: "Instagram", type: "instagram", url: "https://www.instagram.com/tuusuario" },
-                { name: "X", type: "x", url: "https://x.com/tuusuario" }
+                { name: "YouTube", type: "youtube", url: "https://www.youtube.com/@socialfudo" },
+                { name: "Instagram", type: "instagram", url: "https://www.instagram.com/socialfudo?xtok=bmg4d3ltYzQzNWtq" },
+                { name: "Facebook", type: "facebook", url: "https://www.facebook.com/socialfudo/" }
             ]
         };
 
@@ -388,23 +412,28 @@
         const socialLinksElement = document.querySelector("#social-links");
 
         fullNameElement.textContent = fullName || "Tu nombre completo";
-        document.querySelector("#role").textContent = profile.role;
-        document.querySelector("#company").textContent = profile.company;
-        document.querySelector("#note").textContent = profile.note;
-        document.querySelector("#monogram").textContent = [profile.firstName, profile.lastName]
-            .filter(Boolean)
+        const avatarPhoto = document.querySelector("#avatar-photo");
+        document.querySelector("#avatar-initials").textContent = [profile.firstName, profile.lastName]
             .map((part) => part.trim()[0] || "")
             .join("")
-            .slice(0, 2)
-            .toUpperCase() || "VC";
+            .toUpperCase();
+        avatarPhoto.addEventListener("error", () => { avatarPhoto.hidden = true; });
+        if (avatarPhoto.complete && avatarPhoto.naturalWidth === 0) avatarPhoto.hidden = true;
+        document.querySelector("#role").textContent = profile.role;
+        const noteElement = document.querySelector("#note");
+        noteElement.textContent = profile.note;
+        noteElement.hidden = !profile.note;
 
         const emailButton = document.querySelector("#email-button");
-        emailButton.href = `mailto:${profile.email}`;
+        emailButton.hidden = !profile.email;
+        if (profile.email) emailButton.href = `mailto:${profile.email}`;
         const phoneButton = document.querySelector("#phone-button");
-        phoneButton.href = `tel:${profile.phone.replace(/[^\d+]/g, "")}`;
+        phoneButton.hidden = !profile.phone;
+        if (profile.phone) phoneButton.href = `tel:${profile.phone.replace(/[^\d+]/g, "")}`;
         const whatsappButton = document.querySelector("#whatsapp-button");
         function configureWhatsAppButton(phone, message) {
             whatsappButton.hidden = true;
+            if (!phone) return;
             const whatsappNumber = phone.replace(/\D/g, "");
             if (whatsappNumber.length < 8 || whatsappNumber.length > 15) return;
 
@@ -439,16 +468,16 @@
             detailsElement.append(row);
         }
 
-        addDetail("Correo", profile.email, `mailto:${profile.email}`);
-        addDetail("Teléfono", profile.phone, `tel:${profile.phone.replace(/[^\d+]/g, "")}`);
+        if (profile.email) addDetail("Correo", profile.email, `mailto:${profile.email}`);
+        if (profile.phone) addDetail("Teléfono", profile.phone, `tel:${profile.phone.replace(/[^\d+]/g, "")}`);
         addDetail("Sitio web", profile.website, profile.website);
 
         const address = [
-            profile.address.street,
-            profile.address.city,
-            profile.address.region,
-            profile.address.postalCode,
-            profile.address.country
+            profile.address.country || "",
+            profile.address.region || "",
+            profile.address.city || "",
+            profile.address.postalCode || "",
+            profile.address.street || ""
         ].filter(Boolean).join(", ");
         addDetail("Ubicación", address);
 
@@ -461,6 +490,9 @@
             link.rel = "noopener noreferrer";
             socialLinksElement.append(link);
         });
+        if (socialLinksElement.childElementCount === 0) {
+            document.querySelector("#social-title").hidden = true;
+        }
 
         function escapeVCard(value) {
             return String(value || "")
@@ -478,8 +510,8 @@
                 `FN:${escapeVCard(fullName)}`,
                 `ORG:${escapeVCard(profile.company)}`,
                 `TITLE:${escapeVCard(profile.role)}`,
-                `TEL;TYPE=CELL:${escapeVCard(profile.phone)}`,
-                `EMAIL;TYPE=INTERNET:${escapeVCard(profile.email)}`
+                ...(profile.phone ? [`TEL;TYPE=CELL:${escapeVCard(profile.phone)}`] : []),
+                ...(profile.email ? [`EMAIL;TYPE=INTERNET:${escapeVCard(profile.email)}`] : [])
             ];
 
             if (profile.website) lines.push(`URL:${escapeVCard(profile.website)}`);
